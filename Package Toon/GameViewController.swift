@@ -11,13 +11,24 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-
+    static var controllerReference: UIViewController? = nil
+    static let friendsCacheReference = NSCache<NSString, FriendsCache>()
+    static let playerInfoCacheReference = NSCache<NSString, ProfileCache>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        GameViewController.controllerReference = self
+        
+        if !UserDefaults.standard.bool(forKey: "initialSettingsMade") {
+            UserDefaults.standard.set(true, forKey: "rushZone")
+            UserDefaults.standard.set(true, forKey: "green")
+            UserDefaults.standard.set(true, forKey: "initialSettingsMade")
+        }
         
         if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            // Load the SKScene from 'MenuScene.sks'
+            if let scene = SKScene(fileNamed: "MenuScene"){
+                
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
                 
@@ -51,5 +62,15 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension Array {
+    func split() -> (left: [Element], right: [Element]) {
+        let count = self.count
+        let half = count/2
+        let leftSplit = self[0..<half]
+        let rightSplit = self[half..<count]
+        return (left: Array(leftSplit), right: Array(rightSplit))
     }
 }

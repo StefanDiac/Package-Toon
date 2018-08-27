@@ -1,0 +1,6 @@
+framework module Pods_Package_Toon {
+  umbrella header "Pods-Package Toon-umbrella.h"
+
+  export *
+  module * { export * }
+}
